@@ -153,6 +153,15 @@ details.src summary{cursor:pointer}details.src a{color:inherit}
 .sr{grid-template-columns:230px 1fr;column-gap:14px;align-items:center}
 .pl2{display:block}
 }
+.sec{cursor:default}.sec::before{display:none}
+.hbt{display:flex;gap:6px}
+button.mh{border:0;background:none;font-family:inherit;cursor:pointer}
+.mh.sel{outline:2px solid var(--ink);outline-offset:1px}
+.c.selc{box-shadow:0 0 0 2px color-mix(in srgb,var(--ink) 30%,transparent)}
+.mv{display:flex;gap:10px;font-size:13px;margin-top:6px}
+.mv b{min-width:96px;flex:none}.mv span{color:var(--mute)}
+.sv{font-size:12px;color:var(--mute);margin-top:10px}
+.tp .lk{margin:0 0 0 6px}
 </style>
 </head>
 <body>
@@ -160,7 +169,8 @@ details.src summary{cursor:pointer}details.src a{color:inherit}
   <h1>Kab Aur Kahan</h1>
   <p class="sub">The right time for the good things.</p>
   <div class="ctl"><span class="lbl">Planning for</span><div class="seg" id="city" role="group" aria-label="City"></div><span class="lbl">Showing</span><div class="seg" id="range" role="group" aria-label="Months shown"></div></div>
-  <div class="how"><span>Tap the pin next to what you want. The plan row shows which months fit.</span><button class="keyb" id="keyb" aria-expanded="false" aria-controls="keyp">Key <span id="kc">▾</span></button></div>
+  <div class="chips" id="chips"></div>
+  <div class="how"><span>Pin what you want to find the months that fit, or tap a month to see what is in it.</span><span class="hbt"><button class="keyb" id="shareb">Share</button><button class="keyb" id="keyb" aria-expanded="false" aria-controls="keyp">Key <span id="kc">▾</span></button></span></div>
   <div class="keyp" id="keyp" hidden><b>The plan row</b><div class="kr"><span><i class="dotp g">✓</i> everything you pinned fits</span><span><i class="dotp a">2/3</i> some fit, or the place is busy</span><span><i class="dotp r">✕</i> a pinned place is out of season</span><span><i class="dotp n">–</i> nothing fits</span></div><b style="display:block;margin-top:10px">The bars</b><div class="kr"><span><i class="kb s"></i> good or quiet</span><span><i class="kb b"></i> busy</span><span><i class="kb m"></i> a specific date</span><span><i class="kb o"></i> your match</span></div></div>
   <div id="stick"><div id="sk2"></div></div>
   <div class="hero" id="detail"></div>
@@ -168,7 +178,7 @@ details.src summary{cursor:pointer}details.src a{color:inherit}
   <details class="src"><summary>How sure are we? Sources and disclaimer</summary>
   <p><b>Official</b>: fixed-date holidays, and 2026 festival dates from published state holiday lists. <b>Expected</b> (marked ~): 2027 festival dates worked out from the lunar calendar. They can shift by a day until the state notifies its official list, usually in December. Fruit, blooms, events and weather are typical patterns, not guarantees.</p>
   <p>Karnataka holiday dates were last cross-checked on 17 Oct 2026 against <a href="https://www.officeholidays.com/countries/india/karnataka/2027" target="_blank" rel="noopener">officeholidays.com</a> and <a href="https://publicholidays.in/karnataka/" target="_blank" rel="noopener">publicholidays.in</a>. Maharashtra holiday dates, fruit seasons, events, comfort scores and crowd levels are from general knowledge and not yet verified. Crowd levels are estimates based on school holidays, long weekends and festival periods, not measured counts. Official notifications will be linked here once published.</p></details>
-  <p style="text-align:center;margin-top:24px"><a class="lk" id="fb" href="#" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;padding:6px 14px;font-size:13px">💬 Spotted a mistake? Tell us</a></p><p class="hint">Starts from the current month and shows the next 12. Long weekends count Saturday and Sunday as days off and use official dates only. Visits are counted anonymously, with no cookies and no personal data.</p>
+  <p style="text-align:center;margin-top:24px"><a class="lk" id="fb" href="#" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;padding:6px 14px;font-size:13px">💬 Spotted a mistake? Tell us</a></p><p class="hint">Starts from the current month. Version: 25 Oct 2026. Long weekends count Saturday and Sunday as days off and use official dates only. Visits are counted anonymously, with no cookies and no personal data.</p>
 </div>
 <script src="config.js"></script>
 <script>
@@ -177,7 +187,7 @@ if(typeof GC_URL!=='undefined'&&GC_URL&&!/YOURCODE/.test(GC_URL)){window.goatcou
 const track=n=>{try{window.goatcounter&&window.goatcounter.count&&window.goatcounter.count({path:n,event:true})}catch(e){}};
 document.getElementById('fb').addEventListener('click',()=>track('feedback-click'));
 const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const T=new Date(),S=T.getMonth(),Y0=T.getFullYear();
+const T=new Date(),S=T.getMonth(),Y0=T.getFullYear(),TODAY=new Date(T.getFullYear(),T.getMonth(),T.getDate())-0;
 let WIN;const mkWin=n=>Array.from({length:n},(_,j)=>({y:Y0+Math.floor((S+j)/12),m:(S+j)%12}));
 const YRS=[2026,2027,2028];
 const M=(n,a,b,note)=>({n,s:a<=b?[[a,1,b,31]]:[[a,1,12,31],[1,1,b,31]],note});
@@ -216,16 +226,16 @@ Lonavala:[2,2,1,1,1,2,3,3,3,2,2,3],Mahabaleshwar:[3,2,2,3,3,1,1,1,2,3,3,3],Mathe
 for(const k in CITIES)CITIES[k].data.trip.forEach(it=>{it.k=CROWD[it.n]});
 const rt=a=>{if(a.every(Boolean))return'Year-round';const o=[];for(let i=0;i<12;i++){if(a[i]&&!a[(i+11)%12]){let j=i;while(a[(j+1)%12])j++;o.push(j===i?MN[i]:MN[i]+'–'+MN[j%12])}}return o.join(', ')};
 const LS={get(){try{return JSON.parse(localStorage.getItem('sweetspot')||'{}')}catch(e){return{}}},set(v){try{localStorage.setItem('sweetspot',JSON.stringify(v))}catch(e){}}};
-const st={city:'blr',on:new Set(['fest','long','trip']),pins:{blr:new Set(),pune:new Set()},col:new Set(['season','fest']),avoid:false,range:6,key:false,pop:false};
-(function(){const s=LS.get();if(s.city&&CITIES[s.city])st.city=s.city;st.avoid=!!s.avoid;if([6,9,12].includes(s.range))st.range=s.range;st.key=!s.seen;if(s.pins)for(const k in st.pins)if(Array.isArray(s.pins[k]))st.pins[k]=new Set(s.pins[k]);
+const st={city:'blr',on:new Set(['fest','long','trip']),pins:{blr:new Set(),pune:new Set()},col:new Set(['season','fest']),avoid:false,range:6,key:false,pop:false,month:null};
+(function(){const s=LS.get();if(s.city&&CITIES[s.city])st.city=s.city;st.avoid=!!s.avoid;if([6,9,12].includes(s.range))st.range=s.range;st.key=!s.seen;if(Array.isArray(s.on)&&s.on.length)st.on=new Set(s.on.filter(x=>COL[x]));if(s.pins)for(const k in st.pins)if(Array.isArray(s.pins[k]))st.pins[k]=new Set(s.pins[k]);
  try{const q=new URLSearchParams(location.hash.slice(1));if(CITIES[q.get('c')]){st.city=q.get('c');st.pins[st.city]=new Set((q.get('p')||'').split(',').filter(Boolean))}}catch(e){}})();
-function save(){LS.set({city:st.city,avoid:st.avoid,range:st.range,seen:1,pins:Object.fromEntries(Object.entries(st.pins).map(([k,v])=>[k,[...v]]))});
+function save(){LS.set({city:st.city,avoid:st.avoid,range:st.range,seen:1,on:[...st.on],pins:Object.fromEntries(Object.entries(st.pins).map(([k,v])=>[k,[...v]]))});
  try{const p=[...st.pins[st.city]];history.replaceState(null,'',p.length?'#c='+st.city+'&p='+p.map(encodeURIComponent).join(','):'#c='+st.city)}catch(e){}}
 WIN=mkWin(st.range);
 let SW=null;
 function frag(it,j){const{y,m}=WIN[j],dim=new Date(y,m+1,0).getDate();let r=null;
  for(const sp of it.s){let a1,b1,a2,b2;
-  if(sp.length>=5&&sp[0]>1900){if(sp[0]!==y)continue;[,a1,b1,a2,b2]=sp}else[a1,b1,a2,b2]=sp;
+  if(sp.length>=5&&sp[0]>1900){if(sp[0]!==y||new Date(sp[0],sp[3]-1,sp[4])-0<TODAY)continue;[,a1,b1,a2,b2]=sp}else[a1,b1,a2,b2]=sp;
   if(m+1<a1||m+1>a2)continue;
   const a=m+1===a1?(b1-1)/dim:0,b=m+1===a2?Math.min(1,b2/dim):1;
   r=r?[Math.min(r[0],a),Math.max(r[1],b),r[2]]:[a,b,sp]}
@@ -246,7 +256,7 @@ const why=(x,j)=>{const it=x.it,w=WIN[j];
  if(it.c){const wv=it.c[w.m],kv=(it.k||[])[w.m]||2;return it.n+(kv===3?' in season, but busy':wv===3?' at its best, and quiet':' pleasant and quiet')}
  if(it.e){const ss=it.s.filter(s=>s[0]===w.y&&w.m+1>=s[1]&&w.m+1<=s[3]).map(rg);return(it.rs||it.n)+' '+(stat(it)==='Expected'?'~':'')+ss.join(', ')}
  return it.n+' in season'};
-const GROUPS=[{id:'long',name:'Long weekends',src:['long']},{id:'trip',name:'Destinations',src:['trip']},{id:'season',name:'In season',src:['fruit','event']},{id:'fest',name:'Holidays and festivals',src:['fest']}];
+const GROUPS=[{id:'fest',name:'Holidays and festivals',chip:'Holidays',src:['fest']},{id:'trip',name:'Destinations',chip:'Destinations',src:['trip']},{id:'long',name:'Long weekends',chip:'Long weekends',src:['long']},{id:'event',name:'Events and blooms',chip:'Events',src:['event']},{id:'fruit',name:'Fruits',chip:'Fruits',src:['fruit']}];
 function verdicts(p){const n=p.length;return WIN.map((w,j)=>{if(!n)return{c:'n',t:''};const m=w.m;
  if(p.some(x=>x.it.c&&x.it.c[m]<2))return{c:'r',t:'✕'};
  const sc=p.filter(x=>val(x.it,j)>=2).length,busy=p.some(x=>x.it.c&&x.it.k&&x.it.k[m]===3&&x.it.c[m]>=2);
@@ -268,46 +278,59 @@ function hero(R){const{p,n,sc,best,vd,hasG}=R;
  const al=(gi.length?gi.slice(1).concat(ai):ai.slice(1)).slice(0,5);
  if(al.length)h+='<div class="alts">Also:'+al.map(j=>'<span class="ap"><i class="dotp '+vd[j].c+'">'+vd[j].t+'</i>'+mlab(WIN[j])+'</span>').join('')+'</div>';
  if(!hasG){h+='<div class="hw" style="margin-top:8px">Dashed months in the calendar are the closest matches.</div>';
-  if(n>=3){const op=p.map((x,i)=>WIN.filter((_,j)=>p.every((y,k)=>k===i||val(y.it,j)>=2)).length),m=Math.max(...op);if(m>0)h+='<div class="hw">Tip: drop <em>'+p[op.indexOf(m)].it.n+'</em> and '+(m>1?m+' months work':'1 month works')+' for the rest.</div>'}
+  if(n>=3){const op=p.map((x,i)=>WIN.map((_,j)=>j).filter(j=>p.every((y,k)=>k===i||val(y.it,j)>=2))),m=Math.max(...op.map(a=>a.length));if(m>0){const i=op.findIndex(a=>a.length===m),x=p[i];h+='<div class="hw tp">Without <em>'+x.it.n+'</em>, '+(m>1?m+' months fit everything else: '+op[i].slice(0,3).map(j=>mlab(WIN[j])).join(', '):'<em>'+mlab(WIN[op[i][0]])+'</em> fits everything else')+'. <button class="lk dp" data-k="'+key(x.l,x.it)+'">Unpin '+x.it.n+'</button></div>'}}
   if(WIN.length<12)h+='<button class="lk yr">Search 12 months</button>'}
  return{h}}
+function monthHero(R,j){const w=WIN[j],m=w.m,{p,n,vd}=R,D=CITIES[st.city].data,v=vd[j];
+ const ln=(t,x)=>x?'<div class="mv"><b>'+t+'</b><span>'+x+'</span></div>':'';
+ const act=l=>D[l].filter(it=>!it.c&&frag(it,j));
+ let h='<div class="hr"><div class="hm">'+mlab(w)+'</div><div class="hs">Everything in '+MN[m]+'</div></div>';
+ if(n){const m0=p.filter(x=>val(x.it,j)<2);h+='<div class="hw" style="margin:6px 0 8px">Your plan: '+(v.c==='g'?'everything fits this month.':v.c==='r'?'a pinned place is out of season.':v.c==='a'?(v.t==='busy'?'it fits, but it will be busy.':v.t+' fit, missing '+m0.map(x=>x.it.n).join(', ')+'.'):((n-m0.length)?'only '+(n-m0.length)+' of '+n+' fit.':'nothing lines up here.'))+'</div>'}
+ const tr=D.trip.filter(it=>it.c),kk=it=>(it.k||[])[m]||2;
+ h+=ln('Holidays',act('fest').map(it=>why({it,l:'fest'},j)).join(' · '))+ln('Long weekends',act('long').map(it=>why({it,l:'long'},j)).join(' · '))
+  +ln('Quiet places',tr.filter(it=>it.c[m]>=2&&kk(it)<=2).map(it=>it.n).join(', '))+ln('Busy places',tr.filter(it=>it.c[m]>=2&&kk(it)===3).map(it=>it.n).join(', '))+ln('Skip',tr.filter(it=>it.c[m]<2).map(it=>it.n).join(', '))
+  +ln('Events',act('event').map(it=>it.n).join(', '))+ln('Fruits',act('fruit').map(it=>it.n).join(', '));
+ return h+'<button class="lk mx">Close</button>'}
 function render(){
   document.documentElement.style.setProperty('--n',WIN.length);
   const cy=document.getElementById('city');cy.innerHTML='';
-  for(const k in CITIES){const b=document.createElement('button');b.textContent=CITIES[k].name;b.setAttribute('aria-pressed',k===st.city);b.onclick=()=>{st.city=k;track('city: '+k);save();render()};cy.appendChild(b)}
+  for(const k in CITIES){const b=document.createElement('button');b.textContent=CITIES[k].name;b.setAttribute('aria-pressed',k===st.city);b.onclick=()=>{st.city=k;st.month=null;track('city: '+k);save();render()};cy.appendChild(b)}
   const rg=document.getElementById('range');rg.innerHTML='';
-  [6,9,12].forEach(m=>{const b=document.createElement('button');b.textContent=m+' months';b.setAttribute('aria-pressed',st.range===m);b.onclick=()=>{track('range: '+m);st.range=m;WIN=mkWin(m);save();render()};rg.appendChild(b)});
+  [6,9,12].forEach(m=>{const b=document.createElement('button');b.textContent=m+' months';b.setAttribute('aria-pressed',st.range===m);b.onclick=()=>{track('range: '+m);st.range=m;st.month=null;WIN=mkWin(m);save();render()};rg.appendChild(b)});
+  const ch=document.getElementById('chips');ch.innerHTML='';
+  GROUPS.forEach(g=>{const b=document.createElement('button');b.className='chip'+(st.on.has(g.id)?' on':'');b.style.setProperty('--c',COL[g.id]);b.textContent=g.chip;b.setAttribute('aria-pressed',st.on.has(g.id));b.onclick=()=>{track('layer-toggle: '+g.id);st.on.has(g.id)?st.on.delete(g.id):st.on.add(g.id);save();render()};ch.appendChild(b)});
   const R=sweet(),{p,n,sc,best,vd,hasG}=R,sw=R.sw;SW=sw;const pn=st.pins[st.city];
   const bi=hasG?vd.findIndex(v=>v.c==='g'):(best?vd.findIndex((v,j)=>v.c==='a'&&sc[j]===best):-1);
   const lbl=!n?'Your plan':bi<0?'No fit yet':(hasG?mlab(WIN[bi])+' fits':'Best: '+mlab(WIN[bi])+' · '+vd[bi].t),vc=!n||bi<0?'n':hasG?'g':'a';
-  const months=WIN.map((w,j)=>'<div class="mh'+(j===0?' now':'')+(sw&&sw[j]===1?' sw':sw&&sw[j]===2?' pt':'')+'">'+MN[w.m]+'<small>'+(j===0||w.m===0?w.y:'&nbsp;')+'</small></div>').join('');
+  const months=WIN.map((w,j)=>'<button class="mh'+(j===0?' now':'')+(sw&&sw[j]===1?' sw':sw&&sw[j]===2?' pt':'')+(st.month===j?' sel':'')+'" data-j="'+j+'" aria-pressed="'+(st.month===j)+'" aria-label="Show everything in '+MN[w.m]+' '+w.y+'">'+MN[w.m]+'<small>'+(j===0||w.m===0?w.y:'&nbsp;')+'</small></button>').join('');
   const pop=st.pop?'<div class="pop"><div class="pchips">'+(n?p.map(x=>'<button class="pc" data-k="'+key(x.l,x.it)+'" style="--c:'+COL[x.l]+'" aria-label="Unpin '+x.it.n+'">'+x.it.n+' ×</button>').join(''):'Nothing pinned yet.')+'</div><div class="pacts"><button class="lk q" aria-pressed="'+st.avoid+'">Quiet places only</button>'+(n?'<button class="lk clr">Clear</button><button class="lk cp">Copy link</button>':'')+'</div></div>':'';
   const skEl=document.getElementById('sk2');
   skEl.innerHTML='<div class="sr"><div class="vcw"><button class="vb" aria-expanded="'+st.pop+'"><i class="dotp '+vc+'"></i><span><b>'+lbl+'</b><small>'+(n?n+' pinned':'Nothing pinned')+' ▾</small></span></button>'+pop+'</div><div class="grid">'+months+'</div></div>'+(n?'<div class="sr"><div class="pl2">Your plan</div><div class="grid">'+vd.map(v=>'<div class="pc2"><i class="dotp '+v.c+'">'+v.t+'</i></div>').join('')+'</div></div>':'');
   skEl.querySelector('.vb').onclick=e=>{e.stopPropagation();st.pop=!st.pop;render()};
+  skEl.querySelectorAll('.mh').forEach(b=>b.onclick=()=>{track('month-tap');st.month=st.month===+b.dataset.j?null:+b.dataset.j;render()});
   if(st.pop){skEl.querySelectorAll('.pc').forEach(b=>b.onclick=()=>{track('unpin: '+b.dataset.k);pn.delete(b.dataset.k);save();render()});
    skEl.querySelector('.q').onclick=()=>{track('quiet-only');st.avoid=!st.avoid;save();render()};
    if(n){skEl.querySelector('.clr').onclick=()=>{track('clear-pins');pn.clear();save();render()};
     skEl.querySelector('.cp').onclick=e=>{track('copy-link');try{navigator.clipboard.writeText(location.href);e.target.textContent='Copied'}catch(x){e.target.textContent='Copy failed'}}}}
-  const det=document.getElementById('detail'),hr=hero(R);det.innerHTML=hr.h;
+  const det=document.getElementById('detail'),mo=st.month!=null&&st.month<WIN.length,hr=mo?{h:monthHero(R,st.month)}:hero(R);det.innerHTML=hr.h+(n&&!mo?'<div class="sv">Saved in this page’s link. Tap Share to send it.</div>':'');
   if(hr.ex){const exs=document.createElement('div');exs.className='exs';exs.textContent='Try an example: ';
    EX[st.city].forEach(([t,ks])=>{const b=document.createElement('button');b.className='lk';b.textContent=t;b.onclick=()=>{track('example: '+t);ks.forEach(k=>pn.add(k));save();render()};exs.appendChild(b)});det.appendChild(exs)}
+  const mx=det.querySelector('.mx');if(mx)mx.onclick=()=>{st.month=null;render()};
+  det.querySelectorAll('.dp').forEach(b=>b.onclick=()=>{track('drop-tip');pn.delete(b.dataset.k);save();render()});
   const yr=det.querySelector('.yr');if(yr)yr.onclick=()=>{track('search-12');st.range=12;WIN=mkWin(12);save();render()};
   const r=document.getElementById('rows');r.innerHTML='';r.className=st.avoid?'avoid':'';
   const data=CITIES[st.city].data;
   GROUPS.forEach(g=>{
+    if(!st.on.has(g.id))return;
     const items=[];g.src.forEach(l=>data[l].filter(vis).forEach(it=>items.push({l,it})));
     if(g.id==='fest')items.sort((a,b)=>sk(a.it)-sk(b.it));
-    const cl=st.col.has(g.id),sec=document.createElement('div'),tg=()=>{cl?st.col.delete(g.id):st.col.add(g.id);render()};
-    sec.className='sec'+(cl?' col':'');sec.tabIndex=0;sec.setAttribute('role','button');sec.setAttribute('aria-expanded',!cl);
-    sec.onclick=tg;sec.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tg()}};
-    sec.style.setProperty('--c',COL[g.src[0]]);sec.textContent=g.name+(cl?' · '+items.length+' items':'');
+    const sec=document.createElement('div');sec.className='sec';sec.style.setProperty('--c',COL[g.id]);sec.textContent=g.name;
     if(g.id==='trip')sec.insertAdjacentHTML('beforeend','<span class="key"><span><i></i>Quiet</span><span><i class="b"></i>Busy</span><span><i class="s"></i>Skip</span></span>');
-    r.appendChild(sec);if(cl)return;
+    r.appendChild(sec);
     items.forEach(({l,it})=>{
       const k=key(l,it),on=pn.has(k),d=document.createElement('div'),sx=stat(it);d.className='row'+(on?' pin':'')+(it.e?' ev':'');d.style.setProperty('--c',COL[l]);
       d.innerHTML='<div class="t"><button class="pb" aria-pressed="'+on+'" aria-label="'+(on?'Unpin ':'Pin ')+it.n+'" data-tip="'+(on?'Unpin':'Pin for comparison')+'">'+PIN+'</button><div class="lb"><span class="nm">'+it.n+(sx?'<i class="st'+(sx==='Official'?' o':'')+'" role="img" aria-label="'+sx+' date" title="'+sx+' date"></i>':'')+'</span><span class="dt">'+lab(it)+'</span></div></div><div class="grid">'+WIN.map((w,j)=>{
-        const sc2=sw&&sw[j]===1?' sw':sw&&sw[j]===2?' pt':'';
+        const sc2=(sw&&sw[j]===1?' sw':sw&&sw[j]===2?' pt':'')+(st.month===j?' selc':'');
         if(it.c){const wv=it.c[w.m],kv=(it.k||[])[w.m]||2;return '<div class="c '+(wv<2?'v1':kv===3?'busy':'v3')+sc2+'" data-j="'+j+'"></div>'}
         const f=frag(it,j);if(!f)return '<div class="c" data-j="'+j+'"></div>';
         if(!it.e&&f[1]-f[0]>.99)return '<div class="c v3'+sc2+'" data-j="'+j+'"></div>';
@@ -318,6 +341,9 @@ function render(){
 (function(){const r=document.getElementById('rows'),hl=j=>document.querySelectorAll('#stick .mh').forEach((m,i)=>m.classList.toggle('hl',i===j));
 r.addEventListener('mouseover',e=>{const c=e.target.closest&&e.target.closest('.c');hl(c?+c.dataset.j:-1)});r.addEventListener('mouseleave',()=>hl(-1))})();
 const paintKey=()=>{document.getElementById('keyp').hidden=!st.key;document.getElementById('keyb').setAttribute('aria-expanded',st.key);document.getElementById('kc').textContent=st.key?'▴':'▾'};
+document.getElementById('shareb').onclick=async e=>{track('share');const b=e.currentTarget,names=sweet().p.map(x=>x.it.n),url=location.href,text=names.length?'My plan on Kab Aur Kahan: '+names.join(', '):'Kab Aur Kahan: the right time for the good things';
+ try{if(navigator.share){await navigator.share({title:'Kab Aur Kahan',text,url});return}}catch(x){if(x&&x.name==='AbortError')return}
+ try{await navigator.clipboard.writeText(url);b.textContent='Link copied'}catch(x){b.textContent='Copy the address bar'}setTimeout(()=>b.textContent='Share',2000)};
 document.getElementById('keyb').onclick=()=>{track('key-toggle');st.key=!st.key;paintKey()};
 document.addEventListener('click',e=>{if(st.pop&&!(e.target.closest&&e.target.closest('.vcw'))){st.pop=false;render()}});
 paintKey();save();render();
