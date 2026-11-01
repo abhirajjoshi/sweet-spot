@@ -162,23 +162,51 @@ button.mh{border:0;background:none;font-family:inherit;cursor:pointer}
 .mv b{min-width:96px;flex:none}.mv span{color:var(--mute)}
 .sv{font-size:12px;color:var(--mute);margin-top:10px}
 .tp .lk{margin:0 0 0 6px}
+.tabs{display:flex;gap:6px;align-items:center;margin:10px 0 12px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.tab{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 16px;border-radius:99px;font:inherit;font-size:14px;cursor:pointer}
+.tab[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tabs .keyb{margin-left:auto}
+.ql{font-weight:600;margin:14px 0 6px}
+#planview .chips{margin-bottom:4px}
+#planview[hidden],#calview[hidden]{display:none}
+.pres-h{font-weight:600;margin:20px 0 4px}
+.pcard{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:8px;background:var(--card)}
+.pcard.dim{opacity:.65}
+.pcard .pt{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pcard .pn{font-weight:600}
+.pill{font-size:11px;padding:2px 9px;border-radius:99px;color:#fff;white-space:nowrap}
+.pill.q{background:var(--sweet)}.pill.b{background:#d9922b}
+.pcard .ps{font-size:13px;color:var(--mute);margin-top:2px}
+.pcard .pw{font-size:12px;margin-top:6px}
+.pcard .lk,#pres>.lk{margin:8px 0 0}
+.also{font-size:12px;color:var(--mute);margin-top:12px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Kab Aur Kahan</h1>
   <p class="sub">The right time for the good things.</p>
-  <div class="ctl"><span class="lbl">Planning for</span><div class="seg" id="city" role="group" aria-label="City"></div><span class="lbl">Showing</span><div class="seg" id="range" role="group" aria-label="Months shown"></div></div>
+  <div class="ctl"><span class="lbl">Planning for</span><div class="seg" id="city" role="group" aria-label="City"></div></div>
+  <div class="tabs" role="tablist"><button class="tab" id="tabp" role="tab">Plan a trip</button><button class="tab" id="tabc" role="tab">Calendar</button><button class="keyb" id="shareb">Share</button></div>
+  <div id="planview">
+    <div class="ql">1. When are you free?</div><div class="chips" id="pw"></div><div class="chips" id="pw2"></div>
+    <div class="ql">2. What kind of place?</div><div class="chips" id="pt"></div>
+    <div class="ql">3. Crowds?</div><div class="chips" id="pc"></div>
+    <div id="pres"></div>
+  </div>
+  <div id="calview">
+  <div class="ctl"><span class="lbl">Showing</span><div class="seg" id="range" role="group" aria-label="Months shown"></div></div>
   <div class="chips" id="chips"></div>
-  <div class="how"><span>Pin what you want to find the months that fit, or tap a month to see what is in it.</span><span class="hbt"><button class="keyb" id="shareb">Share</button><button class="keyb" id="keyb" aria-expanded="false" aria-controls="keyp">Key <span id="kc">▾</span></button></span></div>
+  <div class="how"><span>Pin what you want to find the months that fit, or tap a month to see what is in it.</span><span class="hbt"><button class="keyb" id="keyb" aria-expanded="false" aria-controls="keyp">Key <span id="kc">▾</span></button></span></div>
   <div class="keyp" id="keyp" hidden><b>The plan row</b><div class="kr"><span><i class="dotp g">✓</i> everything you pinned fits</span><span><i class="dotp a">2/3</i> some fit, or the place is busy</span><span><i class="dotp r">✕</i> a pinned place is out of season</span><span><i class="dotp n">–</i> nothing fits</span></div><b style="display:block;margin-top:10px">The bars</b><div class="kr"><span><i class="kb s"></i> good or quiet</span><span><i class="kb b"></i> busy</span><span><i class="kb m"></i> a specific date</span><span><i class="kb o"></i> your match</span></div></div>
   <div id="stick"><div id="sk2"></div></div>
   <div class="hero" id="detail"></div>
   <div id="rows"></div>
+  </div>
   <details class="src"><summary>How sure are we? Sources and disclaimer</summary>
   <p><b>Official</b>: fixed-date holidays, and 2026 festival dates from published state holiday lists. <b>Expected</b> (marked ~): 2027 festival dates worked out from the lunar calendar. They can shift by a day until the state notifies its official list, usually in December. Fruit, blooms, events and weather are typical patterns, not guarantees.</p>
-  <p>Karnataka holiday dates were last cross-checked on 17 Oct 2026 against <a href="https://www.officeholidays.com/countries/india/karnataka/2027" target="_blank" rel="noopener">officeholidays.com</a> and <a href="https://publicholidays.in/karnataka/" target="_blank" rel="noopener">publicholidays.in</a>. Maharashtra holiday dates, fruit seasons, events, comfort scores and crowd levels are from general knowledge and not yet verified. Crowd levels are estimates based on school holidays, long weekends and festival periods, not measured counts. Official notifications will be linked here once published.</p></details>
-  <p style="text-align:center;margin-top:24px"><a class="lk" id="fb" href="#" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;padding:6px 14px;font-size:13px">💬 Spotted a mistake? Tell us</a></p><p class="hint">Starts from the current month. Version: 25 Oct 2026. Long weekends count Saturday and Sunday as days off and use official dates only. Visits are counted anonymously, with no cookies and no personal data.</p>
+  <p>Karnataka holiday dates were last cross-checked on 17 Oct 2026 against <a href="https://www.officeholidays.com/countries/india/karnataka/2027" target="_blank" rel="noopener">officeholidays.com</a> and <a href="https://publicholidays.in/karnataka/" target="_blank" rel="noopener">publicholidays.in</a>. Maharashtra holiday dates, fruit seasons, events, comfort scores and crowd levels are from general knowledge and not yet verified. Crowd levels are estimates based on school holidays, long weekends and festival periods, not measured counts. On long weekends we count every place as one step busier than usual. Official notifications will be linked here once published.</p></details>
+  <p style="text-align:center;margin-top:24px"><a class="lk" id="fb" href="#" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;padding:6px 14px;font-size:13px">💬 Spotted a mistake? Tell us</a></p><p class="hint">Starts from the current month. Version: 31 Oct 2026. Long weekends count Saturday and Sunday as days off and use official dates only. Visits are counted anonymously, with no cookies and no personal data.</p>
 </div>
 <script src="config.js"></script>
 <script>
@@ -205,15 +233,15 @@ fruit:[M('Mango',4,6),M('Jackfruit',4,7),M('Watermelon',3,6),M('Grapes',2,4),M('
 fest:[D('Sankranti',1,14),D('Republic Day',1,26),D('Ambedkar Jayanti',4,14),D('Labour Day',5,1),D('Independence Day',8,15),D('Gandhi Jayanti',10,2),D('Rajyotsava',11,1),D('Christmas',12,25),
 X('Maha Shivaratri',[2027,3,6,3,6]),F(X('Good Friday',[2027,3,26,3,26])),X('Ugadi',[2027,4,7,4,7,1]),X('Basava Jayanti',[2027,5,9,5,9]),X('Ganesh Chaturthi',[2027,9,4,9,4,1]),
 X('Dasara',[2026,10,19,10,20],[2027,10,4,10,14,1]),X('Valmiki Jayanti',[2026,10,26,10,26]),X('Diwali',[2026,11,8,11,10],[2027,10,28,11,1,1]),X('Kanakadasa Jayanti',[2026,11,27,11,27])],
-trip:[C('Coorg',[3,3,3,2,1,1,1,1,2,3,3,3]),C('Chikmagalur',[3,3,2,2,2,1,1,1,2,3,3,3]),C('Sakleshpur',[3,3,2,2,2,1,1,1,2,3,3,3]),C('Wayanad',[3,3,2,2,1,1,1,2,2,3,3,3]),C('Ooty',[2,2,3,3,3,2,1,1,2,2,2,2]),C('Hampi',[3,3,2,1,1,2,2,2,2,3,3,3]),C('Gokarna',[3,3,3,2,1,1,1,1,2,3,3,3]),C('Munnar',[2,3,3,3,2,1,1,1,2,3,3,3]),C('Mysuru',[3,3,2,1,1,2,2,2,3,3,3,3]),C('Mangalore',[3,3,2,2,1,1,1,1,2,2,3,3]),C('Udupi',[3,3,2,2,1,1,1,1,2,2,3,3])],
-event:[MM('Lalbagh flower show',[[1,1],[8,8]],'Republic Day and Independence Day editions'),M('Tabebuia blooms',3,4,'pink trumpet trees'),M('Coffee blossom',3,4,'Coorg, Chikmagalur'),M('Ooty flower show',5,5),M('Jog Falls in full flow',7,9),M('Mysuru Dasara',9,10),M('Hampi Utsav',11,11,'dates vary'),M('Kadalekai Parishe',11,12,'groundnut fair')]}},
+trip:[C('Coorg',[3,3,3,2,1,1,1,1,2,3,3,3]),C('Chikmagalur',[3,3,2,2,2,1,1,1,2,3,3,3]),C('Sakleshpur',[3,3,2,2,2,1,1,1,2,3,3,3]),C('Wayanad',[3,3,2,2,1,1,1,2,2,3,3,3]),C('Ooty',[2,2,3,3,3,2,1,1,2,2,2,2]),C('Hampi',[3,3,2,1,1,2,2,2,2,3,3,3]),C('Gokarna',[3,3,3,2,1,1,1,1,2,3,3,3]),C('Munnar',[2,3,3,3,2,1,1,1,2,3,3,3]),C('Mysuru',[3,3,2,1,1,2,2,2,3,3,3,3]),C('Mangalore',[3,3,2,2,1,1,1,1,2,2,3,3]),C('Udupi',[3,3,2,2,1,1,1,1,2,2,3,3]),C('Yercaud',[3,3,3,2,2,2,2,2,2,3,3,3]),C('Hogenakkal Falls',[3,3,1,1,1,1,2,2,2,3,3,3]),C('Shivanasamudra Falls',[2,2,1,1,1,2,3,3,3,3,3,2]),C('Chunchi Falls',[2,2,1,1,1,2,3,3,3,3,2,2]),C('Abbey and Iruppu Falls, Coorg',[2,2,1,1,1,2,3,3,3,3,2,2]),C('Tirupati',[3,3,2,1,1,1,2,2,2,3,3,3]),C('Dharmasthala',[3,3,2,1,1,1,1,1,1,3,3,3]),C('Kukke Subramanya',[3,3,2,2,2,1,1,1,2,3,3,3]),C('Sringeri',[3,3,2,2,2,1,1,1,2,3,3,3]),C('Murudeshwar',[3,3,2,1,1,1,1,1,2,3,3,3]),C('Shravanabelagola',[3,3,2,1,1,2,2,2,2,3,3,3])],
+event:[MM('Lalbagh flower show',[[1,1],[8,8]],'Republic Day and Independence Day editions'),M('Tabebuia blooms',3,4,'pink trumpet trees'),M('Coffee blossom',3,4,'Coorg, Chikmagalur'),M('Ooty flower show',5,5),M('Jog Falls in full flow',7,10),M('Mysuru Dasara',9,10),M('Hampi Utsav',11,11,'dates vary'),M('Kadalekai Parishe',11,12,'groundnut fair')]}},
 pune:{name:'Pune & Mumbai',data:{
 fruit:[M('Alphonso mango',4,6,'Konkan'),M('Strawberry',12,3,'Mahabaleshwar'),M('Grapes',2,4,'Nashik'),M('Watermelon',3,6),M('Custard apple',9,11,'Purandar'),M('Jamun',5,7),M('Orange',11,2),M('Chikoo',10,2,'Dahanu'),M('Guava',8,12)],
 fest:[D('Sankranti',1,14),D('Republic Day',1,26),D('Shivaji Jayanti',2,19),D('Ambedkar Jayanti',4,14),D('Maharashtra Day',5,1),D('Independence Day',8,15),D('Gandhi Jayanti',10,2),D('Christmas',12,25),
 X('Maha Shivaratri',[2027,3,6,3,6]),X('Holi',[2027,3,22,3,22,1]),X('Gudi Padwa',[2027,4,7,4,7,1]),X('Ganeshotsav',[2027,9,4,9,14,1]),
 X('Dasara',[2026,10,20,10,20],[2027,10,4,10,14,1]),X('Diwali',[2026,11,8,11,11],[2027,10,28,11,1,1])],
-trip:[C('Lonavala',[3,3,2,1,1,2,3,3,3,3,3,3]),C('Mahabaleshwar',[3,3,2,2,2,1,1,1,2,3,3,3]),C('Matheran',[3,3,2,2,1,1,1,1,2,3,3,3]),C('Alibaug',[3,3,2,1,1,1,1,1,2,2,3,3]),C('Ganpatipule',[3,3,2,1,1,1,1,1,2,2,3,3]),C('Kaas Plateau',[1,1,1,1,1,1,2,3,3,3,1,1]),C('Igatpuri',[2,2,2,1,1,2,3,3,3,3,3,2])],
-event:[M('Kaas Plateau flowers',8,10,'peak Sep'),M('Sahyadri waterfalls',7,9,'Lonavala, Bhivpuri'),M('Kala Ghoda Festival',2,2,'Mumbai'),M('Flamingos in Mumbai',11,3,'Sewri, Airoli'),M('Sawai Gandharva',12,12,'Pune, dates vary')]}}
+trip:[C('Lonavala',[3,3,2,1,1,2,3,3,3,3,3,3]),C('Mahabaleshwar',[3,3,2,2,2,1,1,1,2,3,3,3]),C('Matheran',[3,3,2,2,1,1,1,1,2,3,3,3]),C('Alibaug',[3,3,2,1,1,1,1,1,2,2,3,3]),C('Ganpatipule',[3,3,2,1,1,1,1,1,2,2,3,3]),C('Kaas Plateau',[1,1,1,1,1,1,2,3,3,3,1,1]),C('Igatpuri',[2,2,2,1,1,2,3,3,3,3,3,2]),C('Tamhini Ghat and Mulshi falls',[1,1,1,1,1,2,3,3,3,2,1,1]),C('Bhivpuri Falls',[1,1,1,1,1,2,3,3,3,2,1,1]),C('Thoseghar Falls, Satara',[1,1,1,1,1,2,3,3,3,3,1,1]),C('Randha Falls, Bhandardara',[1,1,1,1,1,1,2,3,3,3,2,1]),C('Shirdi',[3,3,2,1,1,2,2,2,2,3,3,3]),C('Pandharpur',[3,3,2,1,1,2,2,2,2,3,3,3]),C('Ashtavinayak circuit',[3,3,2,1,1,2,2,2,2,3,3,3]),C('Trimbakeshwar and Nashik',[3,3,2,2,2,2,3,3,3,3,3,3]),C('Bhimashankar',[3,3,2,1,1,2,2,2,2,3,3,3]),C('Jejuri',[3,3,2,1,1,2,2,2,2,3,3,3])],
+event:[M('Kaas Plateau flowers',8,10,'peak Sep'),M('Sahyadri waterfalls',7,9,'Lonavala, Bhivpuri'),M('Kala Ghoda Festival',2,2,'Mumbai'),M('Flamingos in Mumbai',11,3,'Sewri, Airoli'),M('Sawai Gandharva',12,12,'Pune, dates vary'),Object.assign(F(X('Nashik Kumbh Mela',[2026,10,31,10,31],[2027,8,2,8,2],[2027,8,31,8,31],[2027,9,11,9,12])),{note:'begins 31 Oct; holy-bath days Aug–Sep 2027'}),M('Pandharpur Ashadhi Wari',6,7,'dates vary'),M('Pandharpur Kartiki Wari',11,11,'dates vary')]}}
 };
 const mkLong=f=>{const A={n:'Long weekends',s:[]},B={n:'Take 1 day off, get 4 days',s:[]};
 f.forEach(it=>it.s.forEach(([y,m1,d1,m2,d2])=>{if(it.c||m1!==m2||d1!==d2||!(it.fixed||y<=2026))return;const w=new Date(y,m1-1,d1).getDay();
@@ -223,14 +251,27 @@ A.e=B.e=A.next=B.next=A.fixed=B.fixed=1;A.note='3 days, no leave';B.note='1 leav
 for(const k in CITIES)CITIES[k].data.long=mkLong(CITIES[k].data.fest);
 const CROWD={Coorg:[3,2,2,3,3,1,1,2,2,3,3,3],Chikmagalur:[3,2,2,2,2,1,1,2,2,3,3,3],Sakleshpur:[2,2,1,1,1,1,1,2,1,2,2,3],Wayanad:[3,2,2,3,2,1,1,2,2,3,3,3],Ooty:[2,2,2,3,3,2,1,1,2,3,2,3],Hampi:[3,2,2,1,1,1,1,1,2,2,3,3],Gokarna:[3,2,2,1,1,1,1,1,1,2,3,3],Munnar:[3,2,2,3,3,1,1,1,2,3,3,3],Mysuru:[3,2,2,2,2,1,1,2,3,3,2,3],Mangalore:[2,2,2,2,2,1,1,1,1,2,2,3],Udupi:[2,2,2,2,2,1,1,1,1,2,2,3],
 Lonavala:[2,2,1,1,1,2,3,3,3,2,2,3],Mahabaleshwar:[3,2,2,3,3,1,1,1,2,3,3,3],Matheran:[3,2,2,3,3,1,1,1,2,3,3,3],Alibaug:[3,2,2,2,2,1,1,1,2,3,3,3],Ganpatipule:[2,2,2,2,3,1,1,1,1,2,2,3],'Kaas Plateau':[1,1,1,1,1,1,2,3,3,3,1,1],Igatpuri:[2,2,1,1,1,2,3,3,3,2,2,2]};
-for(const k in CITIES)CITIES[k].data.trip.forEach(it=>{it.k=CROWD[it.n]});
+Object.assign(CROWD,{Yercaud:[3,2,2,3,3,1,1,2,2,2,2,3],'Hogenakkal Falls':[3,2,2,1,1,1,2,3,2,2,2,3],'Shivanasamudra Falls':[2,1,1,1,1,1,2,3,3,3,2,2],'Chunchi Falls':[1,1,1,1,1,1,2,3,3,2,1,1],'Abbey and Iruppu Falls, Coorg':[2,1,1,1,1,1,2,3,3,3,2,2],Tirupati:[3,2,2,2,3,3,2,2,3,3,2,3],Dharmasthala:[2,3,3,2,2,1,1,1,1,2,3,3],'Kukke Subramanya':[2,2,2,2,2,1,1,1,1,2,3,3],Sringeri:[2,2,1,1,1,1,1,1,3,3,2,2],Murudeshwar:[3,3,3,2,2,1,1,1,1,2,2,3],Shravanabelagola:[1,1,1,1,1,1,1,1,1,1,1,1],
+'Tamhini Ghat and Mulshi falls':[1,1,1,1,1,2,3,3,3,2,1,1],'Bhivpuri Falls':[1,1,1,1,1,2,3,3,3,2,1,1],'Thoseghar Falls, Satara':[1,1,1,1,1,1,2,3,3,2,1,1],'Randha Falls, Bhandardara':[1,1,1,1,1,1,1,3,3,2,1,1],Shirdi:[3,2,3,3,2,2,3,2,2,3,2,3],Pandharpur:[2,2,2,2,2,3,3,2,2,2,3,2],'Ashtavinayak circuit':[2,2,2,2,2,2,2,2,3,2,2,2],'Trimbakeshwar and Nashik':[2,3,3,2,2,2,2,3,2,2,2,2],Bhimashankar:[2,3,3,2,2,2,3,3,2,2,2,2],Jejuri:[2,2,2,2,2,2,2,2,2,3,3,3]});
+const TAGS={Coorg:['Hills'],Chikmagalur:['Hills'],Sakleshpur:['Hills'],Wayanad:['Hills'],Ooty:['Hills'],Hampi:['Heritage'],Gokarna:['Beach','Pilgrimage'],Munnar:['Hills'],Mysuru:['Heritage'],Mangalore:['Beach'],Udupi:['Beach','Pilgrimage'],Yercaud:['Hills'],'Hogenakkal Falls':['Waterfalls'],'Shivanasamudra Falls':['Waterfalls'],'Chunchi Falls':['Waterfalls'],'Abbey and Iruppu Falls, Coorg':['Waterfalls','Hills'],Tirupati:['Pilgrimage'],Dharmasthala:['Pilgrimage'],'Kukke Subramanya':['Pilgrimage'],Sringeri:['Pilgrimage'],Murudeshwar:['Beach','Pilgrimage'],Shravanabelagola:['Heritage','Pilgrimage'],
+Lonavala:['Hills','Waterfalls'],Mahabaleshwar:['Hills'],Matheran:['Hills'],Alibaug:['Beach'],Ganpatipule:['Beach','Pilgrimage'],'Kaas Plateau':['Hills'],Igatpuri:['Hills'],'Tamhini Ghat and Mulshi falls':['Waterfalls','Hills'],'Bhivpuri Falls':['Waterfalls'],'Thoseghar Falls, Satara':['Waterfalls'],'Randha Falls, Bhandardara':['Waterfalls'],Shirdi:['Pilgrimage'],Pandharpur:['Pilgrimage'],'Ashtavinayak circuit':['Pilgrimage'],'Trimbakeshwar and Nashik':['Pilgrimage'],Bhimashankar:['Pilgrimage','Hills'],Jejuri:['Pilgrimage','Heritage']};
+const CAU={'Hogenakkal Falls':'Boat rides pause when the river runs high.','Shivanasamudra Falls':'Entry is limited in heavy flow.','Chunchi Falls':'Our data for this place is less certain.','Abbey and Iruppu Falls, Coorg':'Heavy rain: follow local advisories.','Tamhini Ghat and Mulshi falls':'Access is sometimes restricted at peak monsoon.','Bhivpuri Falls':'Access is sometimes restricted at peak monsoon.',Bhimashankar:'Slippery in monsoon.','Trimbakeshwar and Nashik':'Kumbh Mela: expect very heavy crowds around 2 Aug, 31 Aug and 11–12 Sep 2027.'};
+for(const k in CITIES)CITIES[k].data.trip.forEach(it=>{it.k=CROWD[it.n];it.tg=TAGS[it.n]||[];if(CAU[it.n])it.cau=CAU[it.n]});
+CITIES.pune.data.trip.find(it=>it.n==='Trimbakeshwar and Nashik').ko={'2027-7':3,'2027-8':3};
+const CAUM={'Hogenakkal Falls':[6,7,8,9,10],'Shivanasamudra Falls':[6,7,8,9,10],'Abbey and Iruppu Falls, Coorg':[5,6,7,8,9],'Tamhini Ghat and Mulshi falls':[5,6,7,8],'Bhivpuri Falls':[5,6,7,8],Bhimashankar:[5,6,7,8]};
+for(const k in CITIES)CITIES[k].data.trip.forEach(it=>{if(CAUM[it.n])it.cm=CAUM[it.n]});
+const kvf=(it,y,m)=>(it.ko&&it.ko[y+'-'+m])||(it.k||[])[m]||2;
 const rt=a=>{if(a.every(Boolean))return'Year-round';const o=[];for(let i=0;i<12;i++){if(a[i]&&!a[(i+11)%12]){let j=i;while(a[(j+1)%12])j++;o.push(j===i?MN[i]:MN[i]+'–'+MN[j%12])}}return o.join(', ')};
 const LS={get(){try{return JSON.parse(localStorage.getItem('sweetspot')||'{}')}catch(e){return{}}},set(v){try{localStorage.setItem('sweetspot',JSON.stringify(v))}catch(e){}}};
-const st={city:'blr',on:new Set(['fest','long','trip']),pins:{blr:new Set(),pune:new Set()},col:new Set(['season','fest']),avoid:false,range:6,key:false,pop:false,month:null};
+const st={city:'blr',on:new Set(['fest','long','trip']),pins:{blr:new Set(),pune:new Set()},col:new Set(['season','fest']),avoid:false,range:6,key:false,pop:false,month:null,tab:'plan',plan:{when:'lw',i:0,types:[],quiet:true},more:{}};
 (function(){const s=LS.get();if(s.city&&CITIES[s.city])st.city=s.city;st.avoid=!!s.avoid;if([6,9,12].includes(s.range))st.range=s.range;st.key=!s.seen;if(Array.isArray(s.on)&&s.on.length)st.on=new Set(s.on.filter(x=>COL[x]));if(s.pins)for(const k in st.pins)if(Array.isArray(s.pins[k]))st.pins[k]=new Set(s.pins[k]);
- try{const q=new URLSearchParams(location.hash.slice(1));if(CITIES[q.get('c')]){st.city=q.get('c');st.pins[st.city]=new Set((q.get('p')||'').split(',').filter(Boolean))}}catch(e){}})();
-function save(){LS.set({city:st.city,avoid:st.avoid,range:st.range,seen:1,on:[...st.on],pins:Object.fromEntries(Object.entries(st.pins).map(([k,v])=>[k,[...v]]))});
- try{const p=[...st.pins[st.city]];history.replaceState(null,'',p.length?'#c='+st.city+'&p='+p.map(encodeURIComponent).join(','):'#c='+st.city)}catch(e){}}
+ if(s.tab==='cal'||s.tab==='plan')st.tab=s.tab;if(s.plan&&typeof s.plan==='object')Object.assign(st.plan,{when:s.plan.when||'lw',i:+s.plan.i||0,types:Array.isArray(s.plan.types)?s.plan.types:[],quiet:s.plan.quiet!==false});
+ try{const q=new URLSearchParams(location.hash.slice(1));if(CITIES[q.get('c')]){st.city=q.get('c');st.pins[st.city]=new Set((q.get('p')||'').split(',').filter(Boolean));
+  const t=q.get('tab');if(t==='cal'||t==='plan')st.tab=t;else if(q.get('p'))st.tab='cal';
+  const w=q.get('w'),mw=w&&/^(lw|m)(\d+)$/.exec(w);if(mw)Object.assign(st.plan,{when:mw[1]==='lw'?'lw':'mon',i:+mw[2]});else if(w==='any')st.plan.when='any';
+  if(q.has('ty'))st.plan.types=q.get('ty').split('|').filter(Boolean);if(q.get('q')==='0')st.plan.quiet=false}}catch(e){}})();
+function save(){LS.set({city:st.city,avoid:st.avoid,range:st.range,seen:1,tab:st.tab,plan:st.plan,on:[...st.on],pins:Object.fromEntries(Object.entries(st.pins).map(([k,v])=>[k,[...v]]))});
+ try{const p=[...st.pins[st.city]],pl=st.plan,a=['c='+st.city];if(p.length)a.push('p='+p.map(encodeURIComponent).join(','));a.push('tab='+st.tab);a.push('w='+(pl.when==='any'?'any':(pl.when==='lw'?'lw':'m')+pl.i));if(pl.types.length)a.push('ty='+pl.types.join('|'));if(!pl.quiet)a.push('q=0');history.replaceState(null,'','#'+a.join('&'))}catch(e){}}
 WIN=mkWin(st.range);
 let SW=null;
 function frag(it,j){const{y,m}=WIN[j],dim=new Date(y,m+1,0).getDate();let r=null;
@@ -240,7 +281,7 @@ function frag(it,j){const{y,m}=WIN[j],dim=new Date(y,m+1,0).getDate();let r=null
   const a=m+1===a1?(b1-1)/dim:0,b=m+1===a2?Math.min(1,b2/dim):1;
   r=r?[Math.min(r[0],a),Math.max(r[1],b),r[2]]:[a,b,sp]}
  return r}
-const val=(it,j)=>{if(it.c){const m=WIN[j].m,w=it.c[m];if(w>=2&&st.avoid&&it.k&&it.k[m]===3)return 1;return w}return frag(it,j)?2:0};
+const val=(it,j)=>{if(it.c){const m=WIN[j].m,w=it.c[m];if(w>=2&&st.avoid&&kvf(it,WIN[j].y,m)===3)return 1;return w}return frag(it,j)?2:0};
 const first=it=>{const t=new Date(T.getFullYear(),T.getMonth(),T.getDate())-0;let best=null,bk=1e15;for(const sp of it.s){if(sp[0]<1900)continue;const e=new Date(sp[0],sp[3]-1,sp[4])-0;if(e>=t&&e<bk){bk=e;best=sp}}return best};
 const PIN='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 3h6l-1 6 3 3v2H7v-2l3-3-1-6zM12 14v7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 const fd=(m,d)=>d+' '+MN[m-1];
@@ -253,13 +294,13 @@ const EX={blr:[['Mango in Ooty',['fruit:Mango','trip:Ooty']],['Long weekend in C
 const mlab=w=>MN[w.m]+' ’'+String(w.y).slice(2);
 const rg=sp=>{const[,a,b,c,d]=sp;return a===c?(b===d?fd(a,b):b+'–'+d+' '+MN[a-1]):fd(a,b)+' – '+fd(c,d)};
 const why=(x,j)=>{const it=x.it,w=WIN[j];
- if(it.c){const wv=it.c[w.m],kv=(it.k||[])[w.m]||2;return it.n+(kv===3?' in season, but busy':wv===3?' at its best, and quiet':' pleasant and quiet')}
+ if(it.c){const wv=it.c[w.m],kv=kvf(it,w.y,w.m);return it.n+(kv===3?' in season, but busy':wv===3?' at its best, and quiet':' pleasant and quiet')}
  if(it.e){const ss=it.s.filter(s=>s[0]===w.y&&w.m+1>=s[1]&&w.m+1<=s[3]).map(rg);return(it.rs||it.n)+' '+(stat(it)==='Expected'?'~':'')+ss.join(', ')}
  return it.n+' in season'};
 const GROUPS=[{id:'fest',name:'Holidays and festivals',chip:'Holidays',src:['fest']},{id:'trip',name:'Destinations',chip:'Destinations',src:['trip']},{id:'long',name:'Long weekends',chip:'Long weekends',src:['long']},{id:'event',name:'Events and blooms',chip:'Events',src:['event']},{id:'fruit',name:'Fruits',chip:'Fruits',src:['fruit']}];
 function verdicts(p){const n=p.length;return WIN.map((w,j)=>{if(!n)return{c:'n',t:''};const m=w.m;
  if(p.some(x=>x.it.c&&x.it.c[m]<2))return{c:'r',t:'✕'};
- const sc=p.filter(x=>val(x.it,j)>=2).length,busy=p.some(x=>x.it.c&&x.it.k&&x.it.k[m]===3&&x.it.c[m]>=2);
+ const sc=p.filter(x=>val(x.it,j)>=2).length,busy=p.some(x=>x.it.c&&kvf(x.it,w.y,m)===3&&x.it.c[m]>=2);
  if(sc===n)return busy?{c:'a',t:'busy'}:{c:'g',t:'✓'};
  return sc>=2?{c:'a',t:sc+'/'+n}:{c:'n',t:sc?sc+'/'+n:'–'}})}
 function sweet(){const pn=st.pins[st.city],dt=CITIES[st.city].data,p=[];for(const l in dt)dt[l].forEach(it=>{if(pn.has(key(l,it)))p.push({it,l})});
@@ -281,12 +322,52 @@ function hero(R){const{p,n,sc,best,vd,hasG}=R;
   if(n>=3){const op=p.map((x,i)=>WIN.map((_,j)=>j).filter(j=>p.every((y,k)=>k===i||val(y.it,j)>=2))),m=Math.max(...op.map(a=>a.length));if(m>0){const i=op.findIndex(a=>a.length===m),x=p[i];h+='<div class="hw tp">Without <em>'+x.it.n+'</em>, '+(m>1?m+' months fit everything else: '+op[i].slice(0,3).map(j=>mlab(WIN[j])).join(', '):'<em>'+mlab(WIN[op[i][0]])+'</em> fits everything else')+'. <button class="lk dp" data-k="'+key(x.l,x.it)+'">Unpin '+x.it.n+'</button></div>'}}
   if(WIN.length<12)h+='<button class="lk yr">Search 12 months</button>'}
  return{h}}
+const TAGORDER=['Hills','Beach','Waterfalls','Pilgrimage','Heritage'];
+const HZ=()=>Array.from({length:12},(_,j)=>({y:Y0+Math.floor((S+j)/12),m:(S+j)%12}));
+const pst=(it,y,m,lw)=>it.c[m]<2?'skip':Math.min(3,kvf(it,y,m)+(lw?1:0))===3?'busy':'quiet';
+function lwList(){const out=[];(CITIES[st.city].data.long||[]).forEach(it=>it.s.forEach(sp=>{const[y,m1,d1,m2,d2]=sp;if(new Date(y,m2-1,d2)-0<TODAY)return;const j=(y-Y0)*12+(m1-1-S);if(j<0||j>11)return;out.push({y,m:m1-1,k:y*500+m1*40+d1,label:rg(sp),leave:it.rs==='4-day break'})}));return out.sort((a,b)=>a.k-b.k).slice(0,5)}
+function periods(){const pl=st.plan,H=HZ();
+ if(pl.when==='any')return{any:1,per:H,title:'Any time in the next 12 months'};
+ if(pl.when==='mon'){const i=Math.min(pl.i,11),w=H[i];return{per:[w],title:MN[w.m]+' '+w.y,j:i}}
+ const L=lwList();if(!L.length)return{per:[],title:'No upcoming long weekends found'};const l=L[Math.min(pl.i,L.length-1)];
+ return{per:[{y:l.y,m:l.m}],title:(l.leave?'4-day break ':'Long weekend ')+l.label,j:(l.y-Y0)*12+(l.m-S)}}
+function planResults(){const P=periods(),pl=st.plan,rank={quiet:2,busy:1,skip:0};
+ const D=CITIES[st.city].data.trip.filter(it=>!pl.types.length||it.tg.some(t=>pl.types.includes(t)));
+ const rows=D.map(it=>{let best='skip',bi=0;P.per.forEach((w,i)=>{const s=pst(it,w.y,w.m,pl.when==='lw');if(rank[s]>rank[best]){best=s;bi=i}});
+  const w=P.per[bi]||{y:Y0,m:S};
+  return{it,state:best,w,wv:it.c[w.m],qm:P.any?rt(Array.from({length:12},(_,m)=>{const x=P.per.find(z=>z.m===m);return !!x&&pst(it,x.y,m)==='quiet'})):''}});
+ const ok=rows.filter(r=>r.state!=='skip').sort((a,b)=>(rank[b.state]-rank[a.state])||(b.wv-a.wv)||a.it.n.localeCompare(b.it.n));
+ return{P,ok,skipped:rows.length-ok.length}}
+const preason=(r,P)=>{const it=r.it,w=r.w,mn=MN[w.m];
+ if(P.any)return r.state==='quiet'?'Quiet months: '+(r.qm||'none'):'Good weather, but busy in the months that suit it';
+ const best=r.wv===3?(it.tg.includes('Waterfalls')&&w.m>=6&&w.m<=10?'Water at its best':'At its best'):'Pleasant';
+ return best+' in '+mn+(r.state==='quiet'?', and fewer people':', but expect crowds')};
+function renderPlan(){const pl=st.plan,D=CITIES[st.city].data;
+ const mk=(id,items)=>{const e=document.getElementById(id);e.innerHTML='';items.forEach(([t,on,fn])=>{const b=document.createElement('button');b.className='chip'+(on?' on':'');b.style.setProperty('--c','#1f8a8a');b.textContent=t;b.setAttribute('aria-pressed',on);b.onclick=fn;e.appendChild(b)})};
+ const set=o=>{track('plan-change');Object.assign(pl,o);st.more.p=false;save();render()};
+ mk('pw',[['Next long weekend',pl.when==='lw',()=>set({when:'lw',i:0})],['Pick a month',pl.when==='mon',()=>set({when:'mon',i:0})],['Any time',pl.when==='any',()=>set({when:'any'})]]);
+ const H=HZ(),L=lwList();
+ mk('pw2',pl.when==='lw'?L.map((l,i)=>[l.label+(l.leave?' · 1 leave day':''),Math.min(pl.i,L.length-1)===i,()=>set({i})]):pl.when==='mon'?H.map((w,i)=>[mlab(w),pl.i===i,()=>set({i})]):[]);
+ const tags=TAGORDER.filter(t=>D.trip.some(it=>it.tg.includes(t)));
+ mk('pt',[['All places',!pl.types.length,()=>set({types:[]})]].concat(tags.map(t=>[t,pl.types.includes(t),()=>set({types:pl.types.includes(t)?pl.types.filter(x=>x!==t):pl.types.concat(t)})])));
+ mk('pc',[['Keep it quiet',pl.quiet,()=>set({quiet:true})],['Fine either way',!pl.quiet,()=>set({quiet:false})]]);
+ const R=planResults(),P=R.P,el=document.getElementById('pres'),shown=st.more.p?R.ok:R.ok.slice(0,6);
+ let h='<div class="pres-h">'+P.title+' · '+R.ok.length+' place'+(R.ok.length===1?'':'s')+' fit</div>'+(pl.when==='lw'?'<div class="also" style="margin:0 0 6px">Long weekends are busier everywhere, so every place is counted one step busier than usual.</div>':'');
+ if(!R.ok.length)h+='<div class="ps" style="color:var(--mute);margin-top:6px">Nothing fits.'+(pl.types.length?' Try “All places”.':'')+(pl.when!=='any'?' Try another date or “Any time”.':'')+'</div>';
+ shown.forEach(r=>{const it=r.it,q=r.state==='quiet';
+  h+='<div class="pcard'+(!q&&pl.quiet?' dim':'')+'"><div class="pt"><span class="pn">'+it.n+'</span><span class="pill '+(q?'q':'b')+'">'+(q?'Quiet':'Busy')+'</span></div><div class="ps">'+preason(r,P)+'</div>'+(it.cau&&(P.any||(!it.cm&&!it.ko)||(it.cm&&it.cm.includes(r.w.m))||(it.ko&&it.ko[r.w.y+'-'+r.w.m]))?'<div class="pw">Note: '+it.cau+'</div>':'')+'<div class="ps">'+it.tg.join(' · ')+'</div><button class="lk seecal" data-n="'+it.n+'">See on calendar</button></div>'});
+ if(!P.any&&P.per[0]){const m=P.per[0].m,al=[].concat(D.event,D.fruit).filter(it=>!it.e&&it.s.some(s=>s.length===4&&m+1>=s[0]&&m+1<=s[2])).map(it=>it.n).slice(0,5);if(al.length)h+='<div class="also">Also in '+MN[m]+': '+al.join(', ')+'.</div>'}
+ if(R.ok.length>6&&!st.more.p)h+='<button class="lk morep">Show '+(R.ok.length-6)+' more</button>';
+ if(R.skipped)h+='<div class="also">'+R.skipped+' place'+(R.skipped===1?' is':'s are')+' out of season then.</div>';
+ el.innerHTML=h;
+ el.querySelectorAll('.seecal').forEach(b=>b.onclick=()=>{track('plan-to-calendar');st.pins[st.city].add('trip:'+b.dataset.n);if(P.j!=null&&P.j>=0){if(P.j>=WIN.length){st.range=12;WIN=mkWin(12)}st.month=P.j}else st.month=null;st.tab='cal';save();render();window.scrollTo(0,0)});
+ const mp=el.querySelector('.morep');if(mp)mp.onclick=()=>{st.more.p=true;render()}}
 function monthHero(R,j){const w=WIN[j],m=w.m,{p,n,vd}=R,D=CITIES[st.city].data,v=vd[j];
  const ln=(t,x)=>x?'<div class="mv"><b>'+t+'</b><span>'+x+'</span></div>':'';
  const act=l=>D[l].filter(it=>!it.c&&frag(it,j));
  let h='<div class="hr"><div class="hm">'+mlab(w)+'</div><div class="hs">Everything in '+MN[m]+'</div></div>';
  if(n){const m0=p.filter(x=>val(x.it,j)<2);h+='<div class="hw" style="margin:6px 0 8px">Your plan: '+(v.c==='g'?'everything fits this month.':v.c==='r'?'a pinned place is out of season.':v.c==='a'?(v.t==='busy'?'it fits, but it will be busy.':v.t+' fit, missing '+m0.map(x=>x.it.n).join(', ')+'.'):((n-m0.length)?'only '+(n-m0.length)+' of '+n+' fit.':'nothing lines up here.'))+'</div>'}
- const tr=D.trip.filter(it=>it.c),kk=it=>(it.k||[])[m]||2;
+ const tr=D.trip.filter(it=>it.c),kk=it=>kvf(it,w.y,m);
  h+=ln('Holidays',act('fest').map(it=>why({it,l:'fest'},j)).join(' · '))+ln('Long weekends',act('long').map(it=>why({it,l:'long'},j)).join(' · '))
   +ln('Quiet places',tr.filter(it=>it.c[m]>=2&&kk(it)<=2).map(it=>it.n).join(', '))+ln('Busy places',tr.filter(it=>it.c[m]>=2&&kk(it)===3).map(it=>it.n).join(', '))+ln('Skip',tr.filter(it=>it.c[m]<2).map(it=>it.n).join(', '))
   +ln('Events',act('event').map(it=>it.n).join(', '))+ln('Fruits',act('fruit').map(it=>it.n).join(', '));
@@ -295,6 +376,9 @@ function render(){
   document.documentElement.style.setProperty('--n',WIN.length);
   const cy=document.getElementById('city');cy.innerHTML='';
   for(const k in CITIES){const b=document.createElement('button');b.textContent=CITIES[k].name;b.setAttribute('aria-pressed',k===st.city);b.onclick=()=>{st.city=k;st.month=null;track('city: '+k);save();render()};cy.appendChild(b)}
+  document.getElementById('tabp').setAttribute('aria-selected',st.tab==='plan');document.getElementById('tabc').setAttribute('aria-selected',st.tab==='cal');
+  document.getElementById('planview').hidden=st.tab!=='plan';document.getElementById('calview').hidden=st.tab!=='cal';
+  if(st.tab==='plan'){renderPlan();return}
   const rg=document.getElementById('range');rg.innerHTML='';
   [6,9,12].forEach(m=>{const b=document.createElement('button');b.textContent=m+' months';b.setAttribute('aria-pressed',st.range===m);b.onclick=()=>{track('range: '+m);st.range=m;st.month=null;WIN=mkWin(m);save();render()};rg.appendChild(b)});
   const ch=document.getElementById('chips');ch.innerHTML='';
@@ -327,25 +411,29 @@ function render(){
     const sec=document.createElement('div');sec.className='sec';sec.style.setProperty('--c',COL[g.id]);sec.textContent=g.name;
     if(g.id==='trip')sec.insertAdjacentHTML('beforeend','<span class="key"><span><i></i>Quiet</span><span><i class="b"></i>Busy</span><span><i class="s"></i>Skip</span></span>');
     r.appendChild(sec);
-    items.forEach(({l,it})=>{
+    let shown=items,hid=0;if(items.length>10&&!st.more[g.id]){shown=items.filter((x,i)=>i<8||pn.has(key(x.l,x.it)));hid=items.length-shown.length}
+    shown.forEach(({l,it})=>{
       const k=key(l,it),on=pn.has(k),d=document.createElement('div'),sx=stat(it);d.className='row'+(on?' pin':'')+(it.e?' ev':'');d.style.setProperty('--c',COL[l]);
       d.innerHTML='<div class="t"><button class="pb" aria-pressed="'+on+'" aria-label="'+(on?'Unpin ':'Pin ')+it.n+'" data-tip="'+(on?'Unpin':'Pin for comparison')+'">'+PIN+'</button><div class="lb"><span class="nm">'+it.n+(sx?'<i class="st'+(sx==='Official'?' o':'')+'" role="img" aria-label="'+sx+' date" title="'+sx+' date"></i>':'')+'</span><span class="dt">'+lab(it)+'</span></div></div><div class="grid">'+WIN.map((w,j)=>{
         const sc2=(sw&&sw[j]===1?' sw':sw&&sw[j]===2?' pt':'')+(st.month===j?' selc':'');
-        if(it.c){const wv=it.c[w.m],kv=(it.k||[])[w.m]||2;return '<div class="c '+(wv<2?'v1':kv===3?'busy':'v3')+sc2+'" data-j="'+j+'"></div>'}
+        if(it.c){const wv=it.c[w.m],kv=kvf(it,w.y,w.m);return '<div class="c '+(wv<2?'v1':kv===3?'busy':'v3')+sc2+'" data-j="'+j+'"></div>'}
         const f=frag(it,j);if(!f)return '<div class="c" data-j="'+j+'"></div>';
         if(!it.e&&f[1]-f[0]>.99)return '<div class="c v3'+sc2+'" data-j="'+j+'"></div>';
         return '<div class="c dd'+sc2+'" data-j="'+j+'"><i class="tk" style="left:'+f[0]*100+'%;width:'+(f[1]-f[0])*100+'%"></i></div>'}).join('')+'</div>';
       d.querySelector('.pb').onclick=()=>{on?pn.delete(k):pn.add(k);track((on?'unpin: ':'pin: ')+k);save();render()};r.appendChild(d)});
+    if(hid>0){const mb=document.createElement('button');mb.className='lk';mb.textContent='Show '+hid+' more';mb.onclick=()=>{st.more[g.id]=true;render()};r.appendChild(mb)}
   });
 }
 (function(){const r=document.getElementById('rows'),hl=j=>document.querySelectorAll('#stick .mh').forEach((m,i)=>m.classList.toggle('hl',i===j));
 r.addEventListener('mouseover',e=>{const c=e.target.closest&&e.target.closest('.c');hl(c?+c.dataset.j:-1)});r.addEventListener('mouseleave',()=>hl(-1))})();
 const paintKey=()=>{document.getElementById('keyp').hidden=!st.key;document.getElementById('keyb').setAttribute('aria-expanded',st.key);document.getElementById('kc').textContent=st.key?'▴':'▾'};
-document.getElementById('shareb').onclick=async e=>{track('share');const b=e.currentTarget,names=sweet().p.map(x=>x.it.n),url=location.href,text=names.length?'My plan on Kab Aur Kahan: '+names.join(', '):'Kab Aur Kahan: the right time for the good things';
+document.getElementById('shareb').onclick=async e=>{track('share');const b=e.currentTarget,names=sweet().p.map(x=>x.it.n),url=location.href,text=st.tab==='plan'?'Trip ideas for '+periods().title+' on Kab Aur Kahan':names.length?'My plan on Kab Aur Kahan: '+names.join(', '):'Kab Aur Kahan: the right time for the good things';
  try{if(navigator.share){await navigator.share({title:'Kab Aur Kahan',text,url});return}}catch(x){if(x&&x.name==='AbortError')return}
  try{await navigator.clipboard.writeText(url);b.textContent='Link copied'}catch(x){b.textContent='Copy the address bar'}setTimeout(()=>b.textContent='Share',2000)};
 document.getElementById('keyb').onclick=()=>{track('key-toggle');st.key=!st.key;paintKey()};
 document.addEventListener('click',e=>{if(st.pop&&!(e.target.closest&&e.target.closest('.vcw'))){st.pop=false;render()}});
+document.getElementById('tabp').onclick=()=>{track('tab: plan');st.tab='plan';save();render()};
+document.getElementById('tabc').onclick=()=>{track('tab: calendar');st.tab='cal';save();render()};
 paintKey();save();render();
 </script>
 </body>
